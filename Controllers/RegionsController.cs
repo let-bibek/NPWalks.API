@@ -48,7 +48,7 @@ namespace NPWalks.API.Controllers
 
         [HttpGet("{id:Guid}")]
         // [Route("{id:Guid}")]
-        public IActionResult GetRegion(Guid id)
+        public IActionResult GetRegion([FromRoute] Guid id)
         {
             // Get Data From Database - Domain model
 
@@ -71,6 +71,46 @@ namespace NPWalks.API.Controllers
 
             // Returnd Region DTOs
             return Ok(regionDto);
+        }
+
+
+        // Create a new Region
+
+        [HttpPost]
+
+        public IActionResult CreateRegion([FromBody] AddRegionRequestDto addRegionRequestDto)
+        {
+
+            // Map DTO to domain model
+            var regionDomainModel = new Region
+            {
+                Name = addRegionRequestDto.Name,
+                Code = addRegionRequestDto.Code,
+                RegionImageUrl = addRegionRequestDto.RegionImageUrl
+            };
+
+
+            // Use Domain Model to Create Region
+            dbContext.Regions.Add(regionDomainModel);
+            dbContext.SaveChanges();
+
+            // Map domain model back to DTO
+            var regionDto = new RegionDTO
+            {
+                Id = regionDomainModel.Id,
+                Name = regionDomainModel.Name,
+                Code = regionDomainModel.Code,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+            return CreatedAtAction(nameof(GetRegion), new { id = regionDto.Id }, regionDto);
+        }
+
+        // Update the region   
+
+        [HttpPut("{id:Guid}")]
+        public IActionResult UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDTO updateRegionRequestDTO)
+        {
+            var region = dbContext.Regions.FirstOrDefault(r => r.Id == id);
         }
     }
 }
