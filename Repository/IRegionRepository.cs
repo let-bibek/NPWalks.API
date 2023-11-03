@@ -15,8 +15,8 @@ namespace NPWalks.API.Repository
 
         Task<Region> CreateRegionAsync(Region region);
 
-        Task<Region> UpdateRegionAsync(Guid id, Region region);
+        Task<Region?> UpdateRegionAsync(Guid id, Region region);
 
-        Task<Region> DeleteRegionAsync(Guid id);
+        Task<Region?> DeleteRegionAsync(Guid id);
     }
 }

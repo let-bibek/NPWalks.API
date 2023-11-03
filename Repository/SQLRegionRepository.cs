@@ -27,7 +27,7 @@ namespace NPWalks.API.Repository
 
         }
 
-        public async Task<Region> DeleteRegionAsync(Guid id)
+        public async Task<Region?> DeleteRegionAsync(Guid id)
         {
             var region = await dBContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -52,7 +52,7 @@ namespace NPWalks.API.Repository
             return await dBContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Region> UpdateRegionAsync(Guid id, Region regionDomain)
+        public async Task<Region?> UpdateRegionAsync(Guid id, Region regionDomain)
         {
             var region = await dBContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
