@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NPWalks.API.Data;
 using NPWalks.API.Models.Domain;
 using NPWalks.API.Models.DTO;
@@ -22,11 +23,11 @@ namespace NPWalks.API.Controllers
 
         // Get All Regions
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             // Get Data From Database - Domain model
+            var regions = await dbContext.Regions.ToListAsync();
 
-            var regions = dbContext.Regions.ToList();
             // Map Data to DTOs
             var regionDto = new List<RegionDTO>();
 
@@ -44,16 +45,17 @@ namespace NPWalks.API.Controllers
             return Ok(regions);
         }
 
+
         // Get Single Region
 
         [HttpGet("{id:Guid}")]
         // [Route("{id:Guid}")]
-        public IActionResult GetRegion([FromRoute] Guid id)
+        public async Task<IActionResult> GetRegion([FromRoute] Guid id)
         {
             // Get Data From Database - Domain model
 
             // var region=dbContext.Regions.Find(id);
-            var region = dbContext.Regions.FirstOrDefault(domainRegion => domainRegion.Id == id);
+            var region = await dbContext.Regions.FirstOrDefaultAsync(domainRegion => domainRegion.Id == id);
 
             // Domain Model to Region Dto
             var regionDto = new RegionDTO
@@ -78,7 +80,7 @@ namespace NPWalks.API.Controllers
 
         [HttpPost]
 
-        public IActionResult CreateRegion([FromBody] AddRegionRequestDto addRegionRequestDto)
+        public async Task<IActionResult> CreateRegion([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
 
             // Map DTO to domain model
@@ -91,8 +93,8 @@ namespace NPWalks.API.Controllers
 
 
             // Use Domain Model to Create Region
-            dbContext.Regions.Add(regionDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.Regions.AddAsync(regionDomainModel);
+            await dbContext.SaveChangesAsync();
 
             // Map domain model back to DTO
             var regionDto = new RegionDTO
@@ -108,10 +110,10 @@ namespace NPWalks.API.Controllers
         // Update the region   
 
         [HttpPut("{id:Guid}")]
-        public IActionResult UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDTO updateRegionRequestDTO)
+        public async Task<IActionResult> UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDTO updateRegionRequestDTO)
         {
             // Get the region
-            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
             // Check if the region exists
             if (regionDomainModel == null)
@@ -140,9 +142,9 @@ namespace NPWalks.API.Controllers
 
         // Delete a region
         [HttpDelete("{id:Guid}")]
-        public IActionResult DeleteRegion([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteRegion([FromRoute] Guid id)
         {
-            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (regionDomainModel == null)
             {
                 return NotFound();
@@ -152,7 +154,7 @@ namespace NPWalks.API.Controllers
             // Delete the region domain
 
             dbContext.Regions.Remove(regionDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             // Create DTO for the region domain
             var regionDto = new RegionDTO
