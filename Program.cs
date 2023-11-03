@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NPWalks.API.Data;
+using NPWalks.API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,9 @@ var connectionStrings = builder.Configuration.GetConnectionString("NPWalksConnec
 builder.Services.AddDbContext<NPWalksDBContext>(options =>
 options.UseNpgsql(connectionStrings)
  );
+
+ // Inject Interface with their imlementation
+builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 
 var app = builder.Build();
 
