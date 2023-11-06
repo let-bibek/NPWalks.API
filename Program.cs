@@ -20,6 +20,7 @@ options.UseNpgsql(connectionStrings)
 
 // Inject Interface with their imlementation
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 
 
 // Automapper Injection

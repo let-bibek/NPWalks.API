@@ -20,6 +20,12 @@ namespace NPWalks.API.Mappings
 
             // For mapping betweeen region model to UpdateRegionRequestDTO and vice versa
             CreateMap<Region, UpdateRegionRequestDTO>().ReverseMap();
+
+            CreateMap<Walk, AddWalkRequestDto>().ReverseMap();
+
+            CreateMap<Walk, WalkDto>().ReverseMap();
+
+            CreateMap<Difficulty, DifficultyDto>().ReverseMap();
         }
     }
 }
