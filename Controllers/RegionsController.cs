@@ -60,6 +60,11 @@ namespace NPWalks.API.Controllers
             // var region=dbContext.Regions.Find(id);
             var region = await regionRepository.GetRegionAsync(id);
 
+            if (region == null)
+            {
+                return NotFound();
+            }
+
             // Domain Model to Region Dto
             var regionDto = new RegionDTO
             {
@@ -68,11 +73,6 @@ namespace NPWalks.API.Controllers
                 Name = region.Name,
                 RegionImageUrl = region.RegionImageUrl
             };
-
-            if (regionDto == null)
-            {
-                return NotFound();
-            }
 
             // Returnd Region DTOs
             return Ok(regionDto);
