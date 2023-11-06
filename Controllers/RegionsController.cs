@@ -16,13 +16,12 @@ namespace NPWalks.API.Controllers
     [Route("api/[controller]")]
     public class RegionsController : ControllerBase
     {
-        private readonly NPWalksDBContext dbContext;
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
 
-        public RegionsController(NPWalksDBContext dbContext, IRegionRepository regionRepository, IMapper mapper)
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
+
             this.regionRepository = regionRepository;
             this.mapper = mapper;
         }
@@ -179,7 +178,7 @@ namespace NPWalks.API.Controllers
             //     Name = regionDomainModel.Name,
             //     RegionImageUrl = regionDomainModel.RegionImageUrl
             // };
-            
+
             return Ok(mapper.Map<RegionDTO>(regionDomainModel));
         }
     }
