@@ -47,7 +47,8 @@ namespace NPWalks.API.Controllers
         {
             var walksDomainModel = await walkRepository.GetWalksAsync();
 
-            if(walksDomainModel==null){
+            if (walksDomainModel == null)
+            {
                 return NotFound();
             }
 
@@ -55,6 +56,39 @@ namespace NPWalks.API.Controllers
 
             return Ok(walkDto);
         }
- 
+
+        // Get Walk
+        [HttpGet("{id:Guid}")]
+
+        public async Task<IActionResult> GetWalk([FromRoute] Guid id)
+        {
+
+            var walkDomainModel = await walkRepository.GetWalkAsync(id);
+
+            if (walkDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+        }
+
+        // Update Walk
+        [HttpPut("{id:Guid}")]
+
+        public async Task<IActionResult> UpdateWalk([FromRoute] Guid id, [FromBody] UpdateWalkRequestDto updateWalkRequestDto)
+        {
+            var updateDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
+
+            var walkdomainModel = await walkRepository.UpdateWalkAsync(id, updateDomainModel);
+
+            if (walkdomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<UpdateRegionRequestDTO>(walkdomainModel));
+        }
+
     }
 }

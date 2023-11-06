@@ -25,6 +25,8 @@ namespace NPWalks.API.Mappings
 
             CreateMap<Walk, WalkDto>().ReverseMap();
 
+            CreateMap<Walk, UpdateWalkRequestDto>().ReverseMap();
+
             CreateMap<Difficulty, DifficultyDto>().ReverseMap();
         }
     }
