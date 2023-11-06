@@ -78,3 +78,5 @@
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Npgsql.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/System.CodeDom.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/AutoMapper.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

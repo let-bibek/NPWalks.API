@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NPWalks.API.Data;
@@ -17,11 +18,13 @@ namespace NPWalks.API.Controllers
     {
         private readonly NPWalksDBContext dbContext;
         private readonly IRegionRepository regionRepository;
+        private readonly IMapper mapper;
 
-        public RegionsController(NPWalksDBContext dbContext, IRegionRepository regionRepository)
+        public RegionsController(NPWalksDBContext dbContext, IRegionRepository regionRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.regionRepository = regionRepository;
+            this.mapper = mapper;
         }
 
         // Get All Regions
@@ -32,20 +35,21 @@ namespace NPWalks.API.Controllers
             var regions = await regionRepository.GetAllRegionAsync();
 
             // Map Data to DTOs
-            var regionDto = new List<RegionDTO>();
+            // var regionDto = new List<RegionDTO>();
 
-            foreach (var region in regions)
-            {
-                regionDto.Add(new RegionDTO
-                {
-                    Id = region.Id,
-                    Code = region.Code,
-                    Name = region.Name,
-                    RegionImageUrl = region.RegionImageUrl
-                });
-            }
+            // foreach (var region in regions)
+            // {
+            //     regionDto.Add(new RegionDTO
+            //     {
+            //         Id = region.Id,
+            //         Code = region.Code,
+            //         Name = region.Name,
+            //         RegionImageUrl = region.RegionImageUrl
+            //     });
+            // }
+
             // Return DTOs
-            return Ok(regions);
+            return Ok(mapper.Map<List<RegionDTO>>(regions));
         }
 
 
@@ -66,16 +70,16 @@ namespace NPWalks.API.Controllers
             }
 
             // Domain Model to Region Dto
-            var regionDto = new RegionDTO
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Name = region.Name,
-                RegionImageUrl = region.RegionImageUrl
-            };
+            // var regionDto = new RegionDTO
+            // {
+            //     Id = region.Id,
+            //     Code = region.Code,
+            //     Name = region.Name,
+            //     RegionImageUrl = region.RegionImageUrl
+            // };
 
-            // Returnd Region DTOs
-            return Ok(regionDto);
+            // Return Region DTOs
+            return Ok(mapper.Map<RegionDTO>(region));
         }
 
 
@@ -87,24 +91,33 @@ namespace NPWalks.API.Controllers
         {
 
             // Map DTO to domain model
-            var regionDomainModel = new Region
-            {
-                Name = addRegionRequestDto.Name,
-                Code = addRegionRequestDto.Code,
-                RegionImageUrl = addRegionRequestDto.RegionImageUrl
-            };
+
+            // var regionDomainModel = new Region
+            // {
+            //     Name = addRegionRequestDto.Name,
+            //     Code = addRegionRequestDto.Code,
+            //     RegionImageUrl = addRegionRequestDto.RegionImageUrl
+            // };
+
+            var regionDomainModel = mapper.Map<Region>(addRegionRequestDto);
+
 
             // Use domain model to create new Region
             regionDomainModel = await regionRepository.CreateRegionAsync(regionDomainModel);
 
             // Map domain model back to DTO
-            var regionDto = new RegionDTO
-            {
-                Id = regionDomainModel.Id,
-                Name = regionDomainModel.Name,
-                Code = regionDomainModel.Code,
-                RegionImageUrl = regionDomainModel.RegionImageUrl
-            };
+
+            // var regionDto = new RegionDTO
+            // {
+            //     Id = regionDomainModel.Id,
+            //     Name = regionDomainModel.Name,
+            //     Code = regionDomainModel.Code,
+            //     RegionImageUrl = regionDomainModel.RegionImageUrl
+            // };
+
+            var regionDto = mapper.Map<RegionDTO>(regionDomainModel);
+
+
             return CreatedAtAction(nameof(GetRegion), new { id = regionDto.Id }, regionDto);
         }
 
@@ -114,12 +127,18 @@ namespace NPWalks.API.Controllers
         public async Task<IActionResult> UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDTO updateRegionRequestDTO)
         {
 
-            var regionDomainModel = new Region
-            {
-                Name = updateRegionRequestDTO.Name,
-                Code = updateRegionRequestDTO.Code,
-                RegionImageUrl = updateRegionRequestDTO.RegionImageUrl
-            };
+            // var regionDomainModel = new Region
+            // {
+            //     Name = updateRegionRequestDTO.Name,
+            //     Code = updateRegionRequestDTO.Code,
+            //     RegionImageUrl = updateRegionRequestDTO.RegionImageUrl
+            // };
+
+            // DTO to Domain Model
+
+            var regionDomainModel = mapper.Map<Region>(updateRegionRequestDTO);
+
+
             regionDomainModel = await regionRepository.UpdateRegionAsync(id, regionDomainModel);
             // Check if the region exists
             if (regionDomainModel == null)
@@ -127,15 +146,17 @@ namespace NPWalks.API.Controllers
                 return NotFound();
             }
 
-            // Domain model to DTO
-            var regionDto = new RegionDTO
-            {
-                Id = regionDomainModel.Id,
-                Name = regionDomainModel.Name,
-                Code = regionDomainModel.Code,
-                RegionImageUrl = regionDomainModel.RegionImageUrl
-            };
-            return Ok(regionDto);
+            // Domain model to DTO and return it
+
+            // var regionDto = new RegionDTO
+            // {
+            //     Id = regionDomainModel.Id,
+            //     Name = regionDomainModel.Name,
+            //     Code = regionDomainModel.Code,
+            //     RegionImageUrl = regionDomainModel.RegionImageUrl
+            // };
+
+            return Ok(mapper.Map<RegionDTO>(regionDomainModel));
 
         }
 
@@ -151,14 +172,15 @@ namespace NPWalks.API.Controllers
             }
 
             // Create DTO for the region domain
-            var regionDto = new RegionDTO
-            {
-                Id = regionDomainModel.Id,
-                Code = regionDomainModel.Code,
-                Name = regionDomainModel.Name,
-                RegionImageUrl = regionDomainModel.RegionImageUrl
-            };
-            return Ok(regionDto);
+            // var regionDto = new RegionDTO
+            // {
+            //     Id = regionDomainModel.Id,
+            //     Code = regionDomainModel.Code,
+            //     Name = regionDomainModel.Name,
+            //     RegionImageUrl = regionDomainModel.RegionImageUrl
+            // };
+            
+            return Ok(mapper.Map<RegionDTO>(regionDomainModel));
         }
     }
 }

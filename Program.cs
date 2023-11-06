@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NPWalks.API.Data;
+using NPWalks.API.Mappings;
 using NPWalks.API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +18,13 @@ builder.Services.AddDbContext<NPWalksDBContext>(options =>
 options.UseNpgsql(connectionStrings)
  );
 
- // Inject Interface with their imlementation
+// Inject Interface with their imlementation
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 
+
+// Automapper Injection
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
