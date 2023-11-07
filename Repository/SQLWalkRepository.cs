@@ -27,7 +27,7 @@ namespace NPWalks.API.Repository
         public async Task<Walk?> DeleteWalkAsync(Guid id)
         {
             var walkDomainModel = await dBContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
-            
+
             if (walkDomainModel == null)
             {
                 return null;
@@ -51,9 +51,27 @@ namespace NPWalks.API.Repository
             return walk;
         }
 
-        public async Task<List<Walk>> GetWalksAsync()
+        public async Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null)
         {
-            return await dBContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+            var walks = dBContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+
+            // Filtering 
+            if (string.IsNullOrWhiteSpace(queryString) == false && string.IsNullOrWhiteSpace(queryOn) == false)
+            {
+                if (queryOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = walks.Where(x => x.Name.Contains(queryString));
+                }
+
+                if (queryOn.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = walks.Where(x => x.Description.Contains(queryString));
+                }
+            }
+
+            return await walks.ToListAsync();
+
+            // return await dBContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
         }
 
         public async Task<Walk?> UpdateWalkAsync(Guid id, Walk walk)
