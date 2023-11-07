@@ -24,9 +24,19 @@ namespace NPWalks.API.Repository
             return walk;
         }
 
-        public Task<Walk?> DeleteWalkAsync(Guid id)
+        public async Task<Walk?> DeleteWalkAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var walkDomainModel = await dBContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
+            
+            if (walkDomainModel == null)
+            {
+                return null;
+            }
+
+            dBContext.Walks.Remove(walkDomainModel);
+            await dBContext.SaveChangesAsync();
+
+            return walkDomainModel;
         }
 
         public async Task<Walk> GetWalkAsync(Guid id)
@@ -48,7 +58,7 @@ namespace NPWalks.API.Repository
 
         public async Task<Walk?> UpdateWalkAsync(Guid id, Walk walk)
         {
-            var walkDomainModel = await dBContext.Walks.Include("Difficulty").Include("Region").FirstOrDefaultAsync(x => x.Id == id);
+            var walkDomainModel = await dBContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
             if (walkDomainModel == null)
             {
 
@@ -56,13 +66,11 @@ namespace NPWalks.API.Repository
             }
 
             walkDomainModel.Name = walk.Name;
-            walkDomainModel.Region = walk.Region;
             walkDomainModel.Description = walk.Description;
-            walkDomainModel.Difficulty = walk.Difficulty;
             walkDomainModel.LengthInKm = walk.LengthInKm;
             walkDomainModel.WalkImageUrl = walk.WalkImageUrl;
-            walkDomainModel.RegionId=walk.RegionId;
-            walkDomainModel.DifficultyId=walk.DifficultyId;
+            walkDomainModel.RegionId = walk.RegionId;
+            walkDomainModel.DifficultyId = walk.DifficultyId;
 
             await dBContext.SaveChangesAsync();
 

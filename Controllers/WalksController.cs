@@ -87,7 +87,23 @@ namespace NPWalks.API.Controllers
                 return NotFound();
             }
 
-            return Ok(mapper.Map<UpdateRegionRequestDTO>(walkdomainModel));
+            return Ok(mapper.Map<WalkDto>(walkdomainModel));
+        }
+
+        // Delete Walk
+        [HttpDelete("{id:Guid}")]
+
+
+        public async Task<IActionResult> DeleteWalk([FromRoute] Guid id)
+        {
+            var walkdomainModel = await walkRepository.DeleteWalkAsync(id);
+
+            if (walkdomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<WalkDto>(walkdomainModel));
         }
 
     }
