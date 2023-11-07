@@ -52,7 +52,7 @@ namespace NPWalks.API.Repository
         }
 
         public async Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null,
-        string? sortBy = null, bool isAsc = true
+        string? sortBy = null, bool isAsc = true, int pageNumber = 1, int pageSize = 1000
         )
         {
             var walks = dBContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
@@ -86,7 +86,10 @@ namespace NPWalks.API.Repository
                 }
             }
 
-            return await walks.ToListAsync();
+            // Pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+
+            return await walks.Skip(skipResults).Take(pageSize).ToListAsync();
 
             // return await dBContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
         }

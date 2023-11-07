@@ -46,9 +46,11 @@ namespace NPWalks.API.Controllers
         // GET: api/walks?filterOn=Name&filterQuery=kathmandu?sortBy=Name&isAsc=true
         [HttpGet]
         public async Task<IActionResult> GetWalks([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
-        [FromQuery] string? sortBy, [FromQuery] bool? isAsc)
+        [FromQuery] string? sortBy, [FromQuery] bool? isAsc, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 2)
         {
-            var walksDomainModel = await walkRepository.GetWalksAsync(filterOn, filterQuery, sortBy, isAsc ?? true);
+            var walksDomainModel = await walkRepository.GetWalksAsync(filterOn, filterQuery, sortBy, isAsc ?? true,
+            pageNumber, pageSize
+            );
 
             if (walksDomainModel == null)
             {
