@@ -10,7 +10,8 @@ namespace NPWalks.API.Repository
     {
         Task<Walk> CreateWalkAsync(Walk walk);
 
-        Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null);
+        Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null,
+         string? sortBy = null, bool isAsc = true);
 
         Task<Walk> GetWalkAsync(Guid id);
 

@@ -51,7 +51,9 @@ namespace NPWalks.API.Repository
             return walk;
         }
 
-        public async Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null)
+        public async Task<List<Walk>> GetWalksAsync(string? queryOn = null, string? queryString = null,
+        string? sortBy = null, bool isAsc = true
+        )
         {
             var walks = dBContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
 
@@ -66,6 +68,21 @@ namespace NPWalks.API.Repository
                 if (queryOn.Equals("Description", StringComparison.OrdinalIgnoreCase))
                 {
                     walks = walks.Where(x => x.Description.Contains(queryString));
+                }
+            }
+
+            // Sorting
+            if (string.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                // Order by Name
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAsc ? walks.OrderBy(x => x.Name) : walks.OrderByDescending(x => x.Name);
+                }
+                // Order by Length
+                else if (sortBy.Equals("LengthInKm", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAsc ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
                 }
             }
 
