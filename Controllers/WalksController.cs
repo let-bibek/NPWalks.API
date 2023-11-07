@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Services;
+using NPWalks.API.CustomActionFilters;
 using NPWalks.API.Models.Domain;
 using NPWalks.API.Models.DTO;
 using NPWalks.API.Repository;
@@ -26,25 +27,18 @@ namespace NPWalks.API.Controllers
 
         // Create Walk
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> CreateWalk([FromBody] AddWalkRequestDto addWalkRequestDto)
         {
 
-            if (ModelState.IsValid)
-            {
-                // Walk DTO to Walk model mapping
-                var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
+            // Walk DTO to Walk model mapping
+            var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
 
-                walkDomainModel = await walkRepository.CreateWalkAsync(walkDomainModel);
+            walkDomainModel = await walkRepository.CreateWalkAsync(walkDomainModel);
 
-                var walkDto = mapper.Map<WalkDto>(walkDomainModel);
+            var walkDto = mapper.Map<WalkDto>(walkDomainModel);
 
-                return Ok(walkDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-
+            return Ok(walkDto);
 
         }
 
@@ -82,26 +76,23 @@ namespace NPWalks.API.Controllers
 
         // Update Walk
         [HttpPut("{id:Guid}")]
+        [ValidateModel]
 
         public async Task<IActionResult> UpdateWalk([FromRoute] Guid id, [FromBody] UpdateWalkRequestDto updateWalkRequestDto)
         {
-            if (ModelState.IsValid)
+
+            var updateDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
+
+            var walkdomainModel = await walkRepository.UpdateWalkAsync(id, updateDomainModel);
+
+            if (walkdomainModel == null)
             {
-                var updateDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
-
-                var walkdomainModel = await walkRepository.UpdateWalkAsync(id, updateDomainModel);
-
-                if (walkdomainModel == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(mapper.Map<WalkDto>(walkdomainModel));
+                return NotFound();
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+
+            return Ok(mapper.Map<WalkDto>(walkdomainModel));
+
+
         }
 
         // Delete Walk
