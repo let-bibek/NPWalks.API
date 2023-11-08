@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NPWalks.API.Models.DTO;
+using NPWalks.API.Repository;
 
 namespace NPWalks.API.Controllers
 {
@@ -13,11 +14,12 @@ namespace NPWalks.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ITokenRepository tokenRepository;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
-
+            this.tokenRepository = tokenRepository;
         }
 
 
@@ -63,9 +65,23 @@ namespace NPWalks.API.Controllers
             {
                 var passCheck = await userManager.CheckPasswordAsync(user, loginRequestDto.UserPassword);
 
+                // Create Token
                 if (passCheck)
                 {
-                    return Ok("Login Successful.");
+                    // Get Roles
+                    var roles = await userManager.GetRolesAsync(user);
+
+                    if (roles != null)
+                    {
+                        var JwtToken = tokenRepository.CreateJWTToken(user, roles.ToList());
+
+                        var response = new LoginResponseDto
+                        {
+                            JwtToken = JwtToken
+                        };
+
+                        return Ok(response);
+                    }
                 }
             }
 

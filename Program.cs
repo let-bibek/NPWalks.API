@@ -28,9 +28,10 @@ builder.Services.AddDbContext<NPWalksAuthDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("NPWalksAuthConnectionString"));
 });
 
-// Inject Interface with their imlementation
+// Inject Interface with their implementation
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 
 // Automapper Injection
