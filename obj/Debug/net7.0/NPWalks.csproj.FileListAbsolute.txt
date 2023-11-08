@@ -80,3 +80,17 @@
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/System.CodeDom.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/AutoMapper.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.Extensions.Identity.Core.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.Extensions.Options.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
