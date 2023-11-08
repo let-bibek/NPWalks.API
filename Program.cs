@@ -21,6 +21,11 @@ builder.Services.AddDbContext<NPWalksDBContext>(options =>
 options.UseNpgsql(connectionStrings)
  );
 
+ // AuthDB connections
+ builder.Services.AddDbContext<NPWalksAuthDBContext>(options=>{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("NPWalksAuthConnectionString"));
+ });
+
 // Inject Interface with their imlementation
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();

@@ -9,7 +9,7 @@ namespace NPWalks.API.Data
 {
     public class NPWalksDBContext : DbContext
     {
-        public NPWalksDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public NPWalksDBContext(DbContextOptions<NPWalksDBContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
@@ -49,7 +49,7 @@ namespace NPWalks.API.Data
 
 
             // Seed data into Regions table
-            var regions=new List<Region>(){
+            var regions = new List<Region>(){
                 new Region{
                         Id=Guid.Parse("c4dc6da0-01b4-449b-a883-eb80540c377b"),
                         Code="KTM",
