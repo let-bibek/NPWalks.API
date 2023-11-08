@@ -44,12 +44,13 @@ builder.Services.AddIdentityCore<IdentityUser>()
 .AddDefaultTokenProviders();
 
 // Setting options for identity
-builder.Services.Configure<IdentityOptions>(options=>{
-options.Password.RequireDigit=false;
-options.Password.RequireLowercase=false;
-options.Password.RequireNonAlphanumeric=false;
-options.Password.RequiredLength=5;
-options.Password.RequiredUniqueChars=1;
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequiredUniqueChars = 1;
 });
 
 // Authentication
