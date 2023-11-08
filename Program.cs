@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NPWalks.API.Data;
@@ -21,10 +22,11 @@ builder.Services.AddDbContext<NPWalksDBContext>(options =>
 options.UseNpgsql(connectionStrings)
  );
 
- // AuthDB connections
- builder.Services.AddDbContext<NPWalksAuthDBContext>(options=>{
+// AuthDB connections
+builder.Services.AddDbContext<NPWalksAuthDBContext>(options =>
+{
     options.UseNpgsql(builder.Configuration.GetConnectionString("NPWalksAuthConnectionString"));
- });
+});
 
 // Inject Interface with their imlementation
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
@@ -34,6 +36,21 @@ builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 // Automapper Injection
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+// Setting Identity
+builder.Services.AddIdentityCore<IdentityUser>()
+.AddRoles<IdentityRole>()
+.AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NPWalks")
+.AddEntityFrameworkStores<NPWalksAuthDBContext>()
+.AddDefaultTokenProviders();
+
+// Setting options for identity
+builder.Services.Configure<IdentityOptions>(options=>{
+options.Password.RequireDigit=false;
+options.Password.RequireLowercase=false;
+options.Password.RequireNonAlphanumeric=false;
+options.Password.RequiredLength=5;
+options.Password.RequiredUniqueChars=1;
+});
 
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
