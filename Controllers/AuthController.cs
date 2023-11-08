@@ -23,6 +23,7 @@ namespace NPWalks.API.Controllers
 
         // POST: /api/Auth/Register
         [HttpPost]
+        [Route("Register")]
 
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
@@ -42,12 +43,33 @@ namespace NPWalks.API.Controllers
                 }
                 if (identityResult.Succeeded)
                 {
-                    return Ok("User Registration is Successfull. Please Proceed with Login.");
+                    return Ok("User Registration is Successful. Please Proceed with Login.");
                 }
 
             }
 
             return BadRequest("The User Registration Failed.");
+        }
+
+        // POST: /api/Auth/Login
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
+        {
+            // Get the user
+            var user = await userManager.FindByEmailAsync(loginRequestDto.UserName);
+
+            if (user != null)
+            {
+                var passCheck = await userManager.CheckPasswordAsync(user, loginRequestDto.UserPassword);
+
+                if (passCheck)
+                {
+                    return Ok("Login Successful.");
+                }
+            }
+
+            return BadRequest("Invalid Username or Password.");
         }
     }
 }
