@@ -7,12 +7,19 @@ using NPWalks.API.Data;
 using NPWalks.API.Mappings;
 using NPWalks.API.Repository;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
+// File upload ko laagi use hunchha
+builder.Services.AddHttpContextAccessor();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -63,6 +70,7 @@ builder.Services.AddDbContext<NPWalksAuthDBContext>(options =>
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 
 // Automapper Injection
@@ -117,6 +125,17 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+
+// To show static files like images, css through urls
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+
+});
+
+
 app.MapControllers();
+
 
 app.Run();
