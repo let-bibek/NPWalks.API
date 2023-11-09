@@ -16,7 +16,6 @@ namespace NPWalks.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository regionRepository;
@@ -31,6 +30,7 @@ namespace NPWalks.API.Controllers
 
         // Get All Regions
         [HttpGet]
+        [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
             // Get Data From Database - Domain model
@@ -58,6 +58,8 @@ namespace NPWalks.API.Controllers
         // Get Single Region
 
         [HttpGet("{id:Guid}")]
+        [Authorize(Roles = "Reader,Writer")]
+
         // [Route("{id:Guid}")]
         public async Task<IActionResult> GetRegion([FromRoute] Guid id)
         {
@@ -89,6 +91,8 @@ namespace NPWalks.API.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
+
         public async Task<IActionResult> CreateRegion([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
 
@@ -130,6 +134,8 @@ namespace NPWalks.API.Controllers
 
         [HttpPut("{id:Guid}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
+
         public async Task<IActionResult> UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDTO updateRegionRequestDTO)
         {
 
@@ -170,6 +176,7 @@ namespace NPWalks.API.Controllers
 
         // Delete a region
         [HttpDelete("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteRegion([FromRoute] Guid id)
         {
             var regionDomainModel = await regionRepository.DeleteRegionAsync(id);
