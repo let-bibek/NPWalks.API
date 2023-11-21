@@ -8,10 +8,15 @@ using NPWalks.API.Mappings;
 using NPWalks.API.Repository;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
+using NPWalks.API.Middlewares;
+// using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add Serilog 
+// var logger =new LoggerConfiguration();
 
 builder.Services.AddControllers();
 
@@ -118,6 +123,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

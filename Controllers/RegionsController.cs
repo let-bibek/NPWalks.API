@@ -50,6 +50,10 @@ namespace NPWalks.API.Controllers
             //     });
             // }
 
+
+            // Create an Exception
+            throw new Exception("This is a serious exception");
+
             // Return DTOs
             return Ok(mapper.Map<List<RegionDTO>>(regions));
         }

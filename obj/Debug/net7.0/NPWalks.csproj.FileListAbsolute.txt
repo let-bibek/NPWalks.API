@@ -94,3 +94,12 @@
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
 /Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.AspNetCore.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Extensions.Hosting.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Extensions.Logging.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Formatting.Compact.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Settings.Configuration.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Sinks.Console.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Sinks.Debug.dll
+/Users/bibek/Projects/NPWalks.API/bin/Debug/net7.0/Serilog.Sinks.File.dll
